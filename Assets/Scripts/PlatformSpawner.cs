@@ -46,4 +46,23 @@ public class PlatformSpawner : MonoBehaviour
         if (platformCenters.Count == 0) return Vector3.zero;
         return platformCenters[Random.Range(0, platformCenters.Count)];
     }
+    public Vector3 GetNearestCenter(Vector3 fromPosition)
+    {
+        if (platformCenters.Count == 0) return Vector3.zero;
+
+        Vector3 nearest = platformCenters[0];
+        float minDist = Vector3.Distance(fromPosition, nearest);
+
+        foreach (Vector3 center in platformCenters)
+        {
+            float dist = Vector3.Distance(fromPosition, center);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                nearest = center;
+            }
+        }
+
+        return nearest;
+    }
 }

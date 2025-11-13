@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   platformSpawner: {fileID: 811887932}
-  heightMultiplier: 2
+  heightMultiplier: 1.3
   lookAhead: 0
 --- !u!114 &37186485
 MonoBehaviour:
@@ -429,6 +429,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlatformSpawner
   platformPrefab: {fileID: 2587832016801220643, guid: 5f394ae1bf176334684559f7a59342fc, type: 3}
+  gridSize: 5
+  spacing: 13
+  platformCenters: []
 --- !u!4 &811887933
 Transform:
   m_ObjectHideFlags: 0
@@ -444,7 +447,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1137893079
+--- !u!1001 &1162114761
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -454,15 +457,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 503389988394560341, guid: bf08d7fa9ed11e643a74415a6836f907, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.14202
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 503389988394560341, guid: bf08d7fa9ed11e643a74415a6836f907, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 503389988394560341, guid: bf08d7fa9ed11e643a74415a6836f907, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.23747
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 503389988394560341, guid: bf08d7fa9ed11e643a74415a6836f907, type: 3}
       propertyPath: m_LocalRotation.w
@@ -496,6 +499,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8353711392307270889, guid: bf08d7fa9ed11e643a74415a6836f907, type: 3}
+      propertyPath: jumpHeight
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8353711392307270889, guid: bf08d7fa9ed11e643a74415a6836f907, type: 3}
+      propertyPath: jumpDuration
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -508,4 +519,4 @@ SceneRoots:
   - {fileID: 37186483}
   - {fileID: 245380710}
   - {fileID: 811887933}
-  - {fileID: 1137893079}
+  - {fileID: 1162114761}
