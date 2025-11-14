@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
             targetRotation = Quaternion.LookRotation(flatDir);
         }
 
-        Debug.Log($"🚀 Jump started toward {jumpTarget}");
+        // Debug.Log($"🚀 Jump started toward {jumpTarget}");
     }
 
     void UpdateJump()
@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(jumpTarget.x, 1.5f, jumpTarget.z);
             
             isJumping = false;
-            Debug.Log("✅ Landed!");
+            // Debug.Log("✅ Landed!");
         }
     }
 
