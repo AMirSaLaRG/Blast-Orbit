@@ -7,8 +7,11 @@ public class EnemyRespawner : MonoBehaviour
     private PlatformSpawner platformSpawner;
     
     private const float TargetY = 1f;
-    public int respawnNumber = 3;
+    public int baseSummenNumber = 3;
     public float respawnInterval = 3f;
+    public float spawnHeight = 40f;
+    public int waweNumber;
+    public int increaseNumberENemy;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,12 +29,13 @@ public class EnemyRespawner : MonoBehaviour
     {
         while (true)
         {
-            SummenWave();
-            yield return new WaitForSeconds(respawnInterval);
+            SummenWave(baseSummenNumber + increaseNumberENemy);
+            waweNumber++;
+            yield return new WaitForSeconds(respawnInterval);   
             
         }
     }
-    private void SummenWave()
+    private void SummenWave(int respawnNumber)
     {
         for (int i = 0; i < respawnNumber; i++)
         {
@@ -44,7 +48,7 @@ public class EnemyRespawner : MonoBehaviour
         if (position == null)
         {
             Vector3 centerPos = platformSpawner.GetRandomCenter();
-            float spawnHeight = 10f;
+            
             spawnPos = new Vector3(centerPos.x, spawnHeight, centerPos.z);
         }
         else

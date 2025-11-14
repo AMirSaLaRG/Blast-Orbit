@@ -10,7 +10,8 @@ public class TimerBomb : MonoBehaviour
     public float explosionDuration = 1.0f;
     private bool isExploding;
     private bool playerDamaged = false;
-    private const float TargetY = 1f;
+    private const float TargetY = 3f;
+    public ParticleSystem explosionEffect;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -120,7 +121,9 @@ public class TimerBomb : MonoBehaviour
     private IEnumerator ExplotionDuration(GameObject bomb)
     {
         isExploding = true;
+        explosionEffect.Play();
         countdownText.text = "BOOM";
+        
         yield return new WaitForSeconds(explosionDuration);
         isExploding = false;
         Destroy(bomb);
