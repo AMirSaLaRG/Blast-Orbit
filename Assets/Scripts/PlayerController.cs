@@ -4,9 +4,13 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Jump Settings")]
     public PlatformSpawner platformSpawner;
-    public float jumpDuration = 1f;
+    public float jumpDurationWithOutGas = 2.2f;
+    public float jumpDurationWithFullGas = 0.8f;
+    public float jumpDuration;
     public float jumpHeight = 2f;
     public float jumpDistance = 5f;
+    private Animator animator;
+    public ParticleSystem jumpEffect;
 
     private bool isJumping = false;
     private Vector3 jumpStart;
@@ -18,9 +22,22 @@ public class PlayerController : MonoBehaviour
     // Rotation control
     private Quaternion startRotation;
     private Quaternion targetRotation;
+    public int health = 3;
+    public int gassBaseAmount = 100;
+    public int gassCurrentAmount = 100;
+    public int gassReductionPerJump = 5;
+    private GameManager gameManager;
+    private InGameUIManager uiManager;
 
     void Start()
     {
+
+        gameManager = GameManager.Instance;
+        uiManager = GameObject.Find("InGameUIManager").GetComponent<InGameUIManager>();
+        uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
+        uiManager.SetHealthText(health);
+        jumpEffect.Stop();
+        animator = GetComponentInChildren<Animator>();
         platformSpawner = GameObject.Find("PlatformSpawner").GetComponent<PlatformSpawner>();
         jumpDistance = platformSpawner.Spacing * 0.8f;
         Respawn();
@@ -30,8 +47,15 @@ public class PlayerController : MonoBehaviour
     {
         if (isJumping)
         {
+            animator.SetFloat("Blend", 1);
+            jumpEffect.Play();
+
             UpdateJump();
             return;
+        } else
+        {
+            jumpEffect.Stop();
+            animator.SetFloat("Blend", 0);
         }
 
         // 🔹 WASD = world-relative (not camera-relative)
@@ -53,6 +77,18 @@ public class PlayerController : MonoBehaviour
 
     void StartJump()
     {
+        if (gassCurrentAmount < gassReductionPerJump)
+        {
+            Debug.Log("⛽ Not enough gas to jump!");
+            jumpDuration = jumpDurationWithOutGas;
+        }
+        else
+        {
+            gassCurrentAmount -= gassReductionPerJump;
+            uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
+            jumpDuration = jumpDurationWithFullGas;
+        }
+        
         isJumping = true;
         jumpStart = transform.position;
 
@@ -108,6 +144,24 @@ public class PlayerController : MonoBehaviour
             
             isJumping = false;
             // Debug.Log("✅ Landed!");
+        }
+    }
+    public void TakeDamage(int? damage)
+    {
+        int dmg = damage ?? 1;
+
+        health -= dmg;
+        uiManager.SetHealthText(health);
+        if (health <= 0)
+        {
+            Debug.Log("💀 Player has died!");
+            // Handle player death (e.g., respawn, game over, etc.)
+            Respawn();
+            health = 3; // Reset health on respawn
+        }
+        else
+        {
+            Debug.Log("⚠️ Player took damage! Remaining health: " + health);
         }
     }
 

@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 5967039859969735517}
   m_Layer: 0
   m_Name: BombTimer
-  m_TagString: Untagged
+  m_TagString: TimerBomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -264,8 +264,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimerBomb
   countdownText: {fileID: 4509920358569115092}
-  bombTimer: 5
+  bombTimer: 3
   explosionDuration: 1
+  damage: 1
   explosionEffect: {fileID: 4443389051570289769}
 --- !u!1 &4149333381150296786
 GameObject:
@@ -399,6 +400,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4593184484798939051, guid: 2e1e9506f5904a64b81744324fb7cd50, type: 3}
       propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593184484909914548, guid: 2e1e9506f5904a64b81744324fb7cd50, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4593184484909914548, guid: 2e1e9506f5904a64b81744324fb7cd50, type: 3}

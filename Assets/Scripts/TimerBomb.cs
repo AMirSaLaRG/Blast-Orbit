@@ -8,15 +8,18 @@ public class TimerBomb : MonoBehaviour
     public TextMeshProUGUI countdownText;
     public float bombTimer;
     public float explosionDuration = 1.0f;
+    public int damage = 1;
     private bool isExploding;
     private bool playerDamaged = false;
     private const float TargetY = 3f;
     public ParticleSystem explosionEffect;
+    private PlayerController playerController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         countdownText.text = $"{bombTimer}s";
         StartCoroutine(DropDown(this.gameObject, bombTimer)); 
+        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         
     }
 
@@ -38,16 +41,21 @@ public class TimerBomb : MonoBehaviour
     // }
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"🔔 Trigger entered by: {other.gameObject.name}");
+        if (other.CompareTag("TimerBomb"))
+        {
+            Destroy(gameObject);
+        }
+        // Debug.Log($"🔔 Trigger entered by: {other.gameObject.name}");
         CheckAndApplyDamage(other);
     }
     void OnTriggerStay(Collider other)
     {
+        
         CheckAndApplyDamage(other);
     }
     void OnTriggerExit(Collider other)
     {
-        Debug.Log($"🚪 Trigger exited by: {other.gameObject.name}");
+        // Debug.Log($"🚪 Trigger exited by: {other.gameObject.name}");
     }
     private IEnumerator DropDown(GameObject bomb, float explodeTime)
     {
@@ -140,7 +148,8 @@ public class TimerBomb : MonoBehaviour
             {
                 // DAMAGE APPLIED HERE
                 playerDamaged = true; // Set flag to prevent double damage
-                Debug.Log($"💔 Player entered explosion radius! Apply damage to: {other.gameObject.name}");
+                // Debug.Log($"💔 Player entered explosion radius! Apply damage to: {other.gameObject.name}");
+                playerController.TakeDamage(damage);
                 
                 // 🚨 TODO: In a real game, you would call a function on the player component here:
                 // other.GetComponent<PlayerHealth>().TakeDamage(25);
