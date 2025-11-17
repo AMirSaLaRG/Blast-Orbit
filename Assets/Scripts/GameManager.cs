@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
 
         if (enemyRespawner != null)
         {
-            enemyRespawner.waweNumber = 0;
+            return;
         }
 
     }

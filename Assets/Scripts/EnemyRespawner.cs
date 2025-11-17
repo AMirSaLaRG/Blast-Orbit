@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyRespawner : MonoBehaviour
@@ -10,8 +12,15 @@ public class EnemyRespawner : MonoBehaviour
     public int baseSummenNumber = 3;
     public float respawnInterval = 3f;
     public float spawnHeight = 40f;
-    public int waweNumber;
+    private int waweNumber = 1;
     public int increaseNumberENemy;
+
+    [Header("Respawn Powerups Settings")]
+    public List<GameObject> powerupPrefabs;
+    private int maxPowerupValueToSummen = 1;
+    public int powerupWawesEach = 5;
+    public int powerupNumberToSummen = 1;
+
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,10 +39,29 @@ public class EnemyRespawner : MonoBehaviour
         while (true)
         {
             SummenWave(baseSummenNumber + increaseNumberENemy);
+            
+            SummenPowerup(waweNumber, powerupNumberToSummen);
+
             waweNumber++;
+
             yield return new WaitForSeconds(respawnInterval);   
             
         }
+    }
+    private void SummenPowerup(int waweNumber, int respawnNumber)
+    {
+        Debug.Log(waweNumber+ powerupWawesEach+ (waweNumber % powerupWawesEach));
+        if (waweNumber % powerupWawesEach == 0)
+        {
+            for (int i = 0; i < respawnNumber; i++)
+            {
+                Vector3 centerPos = platformSpawner.GetRandomCenter();
+                Vector3 spawnPos = new Vector3(centerPos.x, 3, centerPos.z);
+                int powerupToSummen = UnityEngine.Random.Range(0, powerupPrefabs.Count);
+                Instantiate(powerupPrefabs[powerupToSummen], spawnPos, powerupPrefabs[powerupToSummen].transform.rotation);
+            }
+        }
+        
     }
     private void SummenWave(int respawnNumber)
     {

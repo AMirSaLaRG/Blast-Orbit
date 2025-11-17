@@ -128,11 +128,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   platformSpawner: {fileID: 0}
+  multiplayerJumpDurationWithOutGas: 2.1
+  jumpSound: {fileID: 8300000, guid: ea20eed302e922746a11bb661e8ce690, type: 3}
+  multiplayerJumpDurationWithSupperGas: 0.6
+  superGasJumpSound: {fileID: 8300000, guid: 782340ae16506d944bbc9d4bac537240, type: 3}
+  baseJumpDuration: 1.2
   jumpDuration: 1
   jumpHeight: 4
   jumpDistance: 5
   jumpEffect: {fileID: 2381844083989563673}
+  usingSuperGas: 0
   health: 3
+  gassBaseAmount: 100
+  gassCurrentAmount: 100
+  gassReductionPerJump: 5
 --- !u!54 &3007136625270866871
 Rigidbody:
   m_ObjectHideFlags: 0

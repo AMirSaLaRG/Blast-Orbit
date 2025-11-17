@@ -4,13 +4,16 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Jump Settings")]
     public PlatformSpawner platformSpawner;
-    public float jumpDurationWithOutGas = 2.2f;
-    public float jumpDurationWithFullGas = 0.8f;
+    public float multiplayerJumpDurationWithOutGas = 2.1f;
+    public AudioClip jumpSound;
+    public float multiplayerJumpDurationWithSupperGas = 0.6f;
+    public float baseJumpDuration = 1.2f;
     public float jumpDuration;
     public float jumpHeight = 2f;
     public float jumpDistance = 5f;
     private Animator animator;
     public ParticleSystem jumpEffect;
+    public bool usingSuperGas = false;
 
     private bool isJumping = false;
     private Vector3 jumpStart;
@@ -28,10 +31,11 @@ public class PlayerController : MonoBehaviour
     public int gassReductionPerJump = 5;
     private GameManager gameManager;
     private InGameUIManager uiManager;
+    private AudioSource audioSource;
 
     void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
         gameManager = GameManager.Instance;
         uiManager = GameObject.Find("InGameUIManager").GetComponent<InGameUIManager>();
         uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
@@ -45,6 +49,19 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (usingSuperGas)
+            {
+                usingSuperGas = false;
+                Debug.Log("🛢️ Super Gas Deactivated");
+            }
+            else
+            {
+                usingSuperGas = true;
+                Debug.Log("🛢️ Super Gas Activated");
+            }
+        }
         if (isJumping)
         {
             animator.SetFloat("Blend", 1);
@@ -73,6 +90,38 @@ public class PlayerController : MonoBehaviour
             StartJump();
             lastInputTime = 0f;
         }
+        
+    }
+    // You need a method that Invoke can target to stop the audio
+    void StopAudio()
+    {
+        audioSource.Stop();
+    }
+
+    // The flexible method to play your clips
+    void playClip(AudioClip clip, float pitch = 1f, float fromTimeToPlay = 0f, float? toTimeToPlay = null)
+    {
+        // 1. Set the necessary properties on the AudioSource
+        audioSource.clip = clip;
+        audioSource.pitch = pitch;
+        audioSource.time = fromTimeToPlay; // Set the starting position
+
+        // 2. Start playback
+        audioSource.Play(); // Must use Play() for timed control (not PlayOneShot)
+
+        // 3. Conditional Stopping Logic
+        if (toTimeToPlay.HasValue)
+        {
+            // Calculate the duration we need to play the clip for
+            float durationOfSegment = toTimeToPlay.Value - fromTimeToPlay;
+
+            // Calculate the real time delay needed to stop. If pitch is 2.0 (twice as fast), 
+            // the delay must be halved.
+            float delayBeforeStopping = durationOfSegment / pitch;
+
+            // Use Invoke to call the StopAudio method after the calculated delay
+            Invoke("StopAudio", delayBeforeStopping);
+        }
     }
 
     void StartJump()
@@ -80,14 +129,28 @@ public class PlayerController : MonoBehaviour
         if (gassCurrentAmount < gassReductionPerJump)
         {
             Debug.Log("⛽ Not enough gas to jump!");
-            jumpDuration = jumpDurationWithOutGas;
+            jumpDuration = baseJumpDuration * multiplayerJumpDurationWithOutGas;
+            
+            
+            
+        }
+        else if (usingSuperGas && gassCurrentAmount > (2*gassReductionPerJump)) 
+        {
+            gassCurrentAmount -= 2*gassReductionPerJump;
+            uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
+            jumpDuration = baseJumpDuration * multiplayerJumpDurationWithSupperGas;
+
+            
         }
         else
         {
             gassCurrentAmount -= gassReductionPerJump;
             uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
-            jumpDuration = jumpDurationWithFullGas;
+            jumpDuration = baseJumpDuration;
+
         }
+        playClip(jumpSound, 1, 3f, 3+jumpDuration);
+
         
         isJumping = true;
         jumpStart = transform.position;
