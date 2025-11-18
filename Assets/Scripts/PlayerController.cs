@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -34,7 +35,11 @@ public class PlayerController : MonoBehaviour
     private GameManager gameManager;
     private InGameUIManager uiManager;
     private AudioSource audioSource;
+    public bool gameOver = false;
 
+    public ParticleSystem damageEffect;
+    public AudioClip damageSound;
+    private bool imuneToDamage = false;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -203,16 +208,18 @@ public class PlayerController : MonoBehaviour
     }
     public void TakeDamage(int? damage)
     {
+        if (imuneToDamage) return;
         int dmg = damage ?? 1;
-
+        StartCoroutine(TakingdamageEffect());
         health -= dmg;
         uiManager.SetHealthText(health);
         if (health <= 0)
         {
             Debug.Log("💀 Player has died!");
             // Handle player death (e.g., respawn, game over, etc.)
-            Respawn();
-            health = 3; // Reset health on respawn
+            // Respawn();
+            // health = 3; // Reset health on respawn
+            
         }
         else
         {
@@ -228,5 +235,16 @@ public class PlayerController : MonoBehaviour
     {
         currentCash += amount;
         uiManager.SetCashText(currentCash);
+    }
+    private IEnumerator TakingdamageEffect()
+    {
+        damageEffect.Play();
+        imuneToDamage = true;
+        audioSource.volume = 0.7f;
+        audioSource.PlayOneShot(damageSound);
+        yield return new WaitForSeconds(2f);
+        audioSource.Stop();
+        imuneToDamage = false;
+        damageEffect.Stop();
     }
 }

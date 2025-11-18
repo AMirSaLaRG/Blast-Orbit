@@ -3,10 +3,11 @@ using UnityEngine;
 public class CashPickUp : MonoBehaviour
 {
     public int cashAmount = 10;
+    private PickableEffects pickableEffects;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        pickableEffects = GetComponent<PickableEffects>();
     }
 
     // Update is called once per frame
@@ -22,7 +23,11 @@ public class CashPickUp : MonoBehaviour
             if (playerController != null)
             {
                 playerController.AddCash(cashAmount);
-                Destroy(gameObject);
+                if (pickableEffects != null)
+                {
+                    pickableEffects.StopInvoking();
+                    Destroy(gameObject);
+                }
             }
         }
     }

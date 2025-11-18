@@ -10,7 +10,6 @@ public class TimerBomb : MonoBehaviour
     public float explosionDuration = 1.0f;
     public int damage = 1;
     private bool isExploding;
-    private bool playerDamaged = false;
     private const float TargetY = 3f;
     public ParticleSystem explosionEffect;
     private PlayerController playerController;
@@ -150,13 +149,12 @@ public class TimerBomb : MonoBehaviour
         // CRITICAL CHECKS: We only apply damage if...
         // 1. The bomb is currently in the active explosion state.
         // 2. The player has not already been damaged by this specific bomb.
-        if (isExploding && !playerDamaged)
+        if (isExploding)
         {
             // Assuming the Player GameObject has the tag "Player"
             if (other.CompareTag("Player"))
             {
                 // DAMAGE APPLIED HERE
-                playerDamaged = true; // Set flag to prevent double damage
                 // Debug.Log($"💔 Player entered explosion radius! Apply damage to: {other.gameObject.name}");
                 playerController.TakeDamage(damage);
                 
@@ -172,10 +170,11 @@ public class TimerBomb : MonoBehaviour
         
         if (countdownTime <= playTime)
         {
-            Debug.Log("playtime: "+ playTime + " time: " + countdownTime);
+            // Debug.Log("playtime: "+ playTime + " time: " + countdownTime);
             isplayed = true;
             audioSource.Play();
         }
         
     }
+    
 }

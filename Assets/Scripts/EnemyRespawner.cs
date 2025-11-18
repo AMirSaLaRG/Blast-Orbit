@@ -54,7 +54,7 @@ public class EnemyRespawner : MonoBehaviour
     }
     private void SummenItem(int waweNumber, int respawnNumber, List<GameObject> listOfSummenings, int summenWawesNumber)
     {
-        Debug.Log(waweNumber+ summenWawesNumber+ (waweNumber % summenWawesNumber));
+        // Debug.Log(waweNumber+ summenWawesNumber+ (waweNumber % summenWawesNumber));
         if (waweNumber % summenWawesNumber == 0)
         {
             for (int i = 0; i < respawnNumber; i++)

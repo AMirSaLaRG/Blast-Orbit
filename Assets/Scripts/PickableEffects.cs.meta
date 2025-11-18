@@ -5,6 +5,7 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - pickUpSound: {fileID: 8300000, guid: 995344392c130b043905054730c5826c, type: 3}
+  - gettingOutOfTimeEffect: {fileID: 4364354964670000193, guid: 3801a320e9ae1bf44a14efa194c86c3f, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
