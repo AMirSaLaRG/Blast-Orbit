@@ -17,6 +17,9 @@ public class EnemyRespawner : MonoBehaviour
 
     [Header("Respawn Powerups Settings")]
     public List<GameObject> powerupPrefabs;
+    public List<GameObject> cashPrefabs;
+    public int cashWawesEach = 3;
+
     private int maxPowerupValueToSummen = 1;
     public int powerupWawesEach = 5;
     public int powerupNumberToSummen = 1;
@@ -40,7 +43,8 @@ public class EnemyRespawner : MonoBehaviour
         {
             SummenWave(baseSummenNumber + increaseNumberENemy);
             
-            SummenPowerup(waweNumber, powerupNumberToSummen);
+            SummenItem(waweNumber, powerupNumberToSummen, powerupPrefabs, powerupWawesEach);
+            SummenItem(waweNumber, powerupNumberToSummen, cashPrefabs, cashWawesEach);
 
             waweNumber++;
 
@@ -48,21 +52,22 @@ public class EnemyRespawner : MonoBehaviour
             
         }
     }
-    private void SummenPowerup(int waweNumber, int respawnNumber)
+    private void SummenItem(int waweNumber, int respawnNumber, List<GameObject> listOfSummenings, int summenWawesNumber)
     {
-        Debug.Log(waweNumber+ powerupWawesEach+ (waweNumber % powerupWawesEach));
-        if (waweNumber % powerupWawesEach == 0)
+        Debug.Log(waweNumber+ summenWawesNumber+ (waweNumber % summenWawesNumber));
+        if (waweNumber % summenWawesNumber == 0)
         {
             for (int i = 0; i < respawnNumber; i++)
             {
                 Vector3 centerPos = platformSpawner.GetRandomCenter();
                 Vector3 spawnPos = new Vector3(centerPos.x, 3, centerPos.z);
-                int powerupToSummen = UnityEngine.Random.Range(0, powerupPrefabs.Count);
-                Instantiate(powerupPrefabs[powerupToSummen], spawnPos, powerupPrefabs[powerupToSummen].transform.rotation);
+                int powerupToSummen = UnityEngine.Random.Range(0, listOfSummenings.Count);
+                Instantiate(listOfSummenings[powerupToSummen], spawnPos, listOfSummenings[powerupToSummen].transform.rotation);
             }
         }
         
     }
+
     private void SummenWave(int respawnNumber)
     {
         for (int i = 0; i < respawnNumber; i++)

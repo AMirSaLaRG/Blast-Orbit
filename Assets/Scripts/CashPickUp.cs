@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PickableEffects : MonoBehaviour
+public class CashPickUp : MonoBehaviour
 {
-    public AudioClip pickUpSound;
+    public int cashAmount = 10;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -13,15 +13,17 @@ public class PickableEffects : MonoBehaviour
     void Update()
     {
         
-        transform.Rotate(Vector3.up * 50f * Time.deltaTime);
     }
     private void OnTriggerEnter(Collider other)
-    {   
-        Debug.Log("Picked up!");
+    {
         if (other.CompareTag("Player"))
         {
-            AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
+            PlayerController playerController = other.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                playerController.AddCash(cashAmount);
+                Destroy(gameObject);
+            }
         }
-        
     }
 }

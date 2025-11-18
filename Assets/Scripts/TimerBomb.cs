@@ -14,12 +14,20 @@ public class TimerBomb : MonoBehaviour
     private const float TargetY = 3f;
     public ParticleSystem explosionEffect;
     private PlayerController playerController;
+    private AudioSource audioSource;
+    private float auidoSourceLength ;
+    public float timeToPlayClip = 2.0f;
+    public float endOfClipTime = 2f;
+    private bool isplayed = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        
         countdownText.text = $"{bombTimer}s";
         StartCoroutine(DropDown(this.gameObject, bombTimer)); 
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        
         
     }
 
@@ -80,7 +88,7 @@ public class TimerBomb : MonoBehaviour
 
             // Advance the timer by the time elapsed since the last frame
             elapsedTime += Time.deltaTime;
-
+            
 
             countdownText.text = $"{Mathf.CeilToInt(countdownTime)}s"; 
             countdownTime -= Time.deltaTime;
@@ -102,6 +110,7 @@ public class TimerBomb : MonoBehaviour
             {
                 // Format F1 shows one decimal place (e.g., 3.0s, 2.9s)
                 countdownText.text = $"{Mathf.CeilToInt(countdownTime)}s"; 
+                PlayBombSound(countdownTime);
             }
 
             // Decrease time every frame
@@ -156,5 +165,17 @@ public class TimerBomb : MonoBehaviour
             }
         }
     }
-    
+    public void PlayBombSound(float countdownTime)
+    {
+        if (isplayed) return;
+        float playTime = bombTimer - timeToPlayClip;
+        
+        if (countdownTime <= playTime)
+        {
+            Debug.Log("playtime: "+ playTime + " time: " + countdownTime);
+            isplayed = true;
+            audioSource.Play();
+        }
+        
+    }
 }

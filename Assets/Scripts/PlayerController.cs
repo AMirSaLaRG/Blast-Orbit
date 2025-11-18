@@ -11,9 +11,11 @@ public class PlayerController : MonoBehaviour
     public float jumpDuration;
     public float jumpHeight = 2f;
     public float jumpDistance = 5f;
+    private bool usingSuperGas = false;
+
+    private int currentCash = 0;
     private Animator animator;
     public ParticleSystem jumpEffect;
-    public bool usingSuperGas = false;
 
     private bool isJumping = false;
     private Vector3 jumpStart;
@@ -41,6 +43,7 @@ public class PlayerController : MonoBehaviour
         uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
         uiManager.SetHealthText(health);
         jumpEffect.Stop();
+        uiManager.SetCashText(currentCash);
         animator = GetComponentInChildren<Animator>();
         platformSpawner = GameObject.Find("PlatformSpawner").GetComponent<PlatformSpawner>();
         jumpDistance = platformSpawner.Spacing * 0.8f;
@@ -51,16 +54,12 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (usingSuperGas)
-            {
-                usingSuperGas = false;
-                Debug.Log("🛢️ Super Gas Deactivated");
-            }
-            else
-            {
-                usingSuperGas = true;
-                Debug.Log("🛢️ Super Gas Activated");
-            }
+            if (isJumping && !usingSuperGas && gassCurrentAmount > (2*gassReductionPerJump)) 
+        {
+            gassCurrentAmount -= 2*gassReductionPerJump;
+            uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
+            jumpDuration *= multiplayerJumpDurationWithSupperGas;            
+        }
         }
         if (isJumping)
         {
@@ -134,14 +133,7 @@ public class PlayerController : MonoBehaviour
             
             
         }
-        else if (usingSuperGas && gassCurrentAmount > (2*gassReductionPerJump)) 
-        {
-            gassCurrentAmount -= 2*gassReductionPerJump;
-            uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
-            jumpDuration = baseJumpDuration * multiplayerJumpDurationWithSupperGas;
-
-            
-        }
+        
         else
         {
             gassCurrentAmount -= gassReductionPerJump;
@@ -231,5 +223,10 @@ public class PlayerController : MonoBehaviour
     void Respawn()
     {
         transform.position = platformSpawner.GetRandomCenter() + Vector3.up * 2f;
+    }
+    public void AddCash(int amount)
+    {
+        currentCash += amount;
+        uiManager.SetCashText(currentCash);
     }
 }

@@ -9,7 +9,7 @@ public class InGameUIManager : MonoBehaviour
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI healthText;
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI cashText;
     private GameManager gameManager;
     public UnityEngine.UI.Image gasBar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -44,5 +44,9 @@ public class InGameUIManager : MonoBehaviour
     {
         gasBar.fillAmount = (float)currentGas / maxGas;
     }  
+    public void SetCashText(int cashNumber)
+    {
+        cashText.text = "Cash: $" + cashNumber.ToString();
+    }   
     
 }

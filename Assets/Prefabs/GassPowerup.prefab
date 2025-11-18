@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc14d8b7623738147a778c6128fab7a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickableEffects
+  pickUpSound: {fileID: 8300000, guid: 995344392c130b043905054730c5826c, type: 3}
 --- !u!65 &3005252313824777320
 BoxCollider:
   m_ObjectHideFlags: 0
