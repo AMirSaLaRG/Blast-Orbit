@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        GoToMainMenu();
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (isJumping && !usingSuperGas && gassCurrentAmount > (2*gassReductionPerJump)) 
@@ -100,6 +102,13 @@ public class PlayerController : MonoBehaviour
     void StopAudio()
     {
         audioSource.Stop();
+    }
+    void GoToMainMenu()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     // The flexible method to play your clips
