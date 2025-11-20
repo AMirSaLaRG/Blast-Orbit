@@ -8,7 +8,7 @@ public class GameData
     public int cash;
     public float characterSpeedMultiplier;
     public float characterGasAmountToAdd;
-    public int characterMaxHealth;
+    public int characterMaxHealthToAdd;
     internal UserSetting userSetting;
 
     void SaveGame()

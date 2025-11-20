@@ -7,11 +7,14 @@ public class UserSetting : MonoBehaviour
     public string username = "NewPlayer";
     public int highscore = 0;
     public int cash = 0;
-    public float characterSpeedMultiplier = 1.0f;
+    [Header ("Speed")]
+    public float characterSpeedMultiplier = 0f;
     public float cashEachUpgradeSpeed = 1f;
+    [Header("Gas")]
     public float characterGasAmountToAdd = 0f;
-    public float cashEachUpgradeGas = 1f;
-    public int characterMaxHealth = 3;
+    public float cashEachUpgradeGas = 5f;
+    [Header("Health")]
+    public int characterMaxHealthToAdd = 0;
     public float cashEachUpgradeHealth = 100f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -39,7 +42,7 @@ public class UserSetting : MonoBehaviour
         
             cash -= (int)cost;
 
-        characterSpeedMultiplier -= upgradePercantage;
+        characterSpeedMultiplier += upgradePercantage;
         DataPersistenceManager.SaveGame();
         
     }
@@ -63,7 +66,7 @@ public class UserSetting : MonoBehaviour
         
             cash -= (int)cost;
 
-        characterMaxHealth += upgrade;
+        characterMaxHealthToAdd += upgrade;
         DataPersistenceManager.SaveGame();
         }
     

@@ -14,7 +14,7 @@ public static class DataPersistenceManager
             cash = userSetting.cash,
             characterSpeedMultiplier = userSetting.characterSpeedMultiplier,
             characterGasAmountToAdd = userSetting.characterGasAmountToAdd,
-            characterMaxHealth = userSetting.characterMaxHealth
+            characterMaxHealthToAdd = userSetting.characterMaxHealthToAdd
         };
 
         string json = JsonUtility.ToJson(data);
@@ -35,7 +35,7 @@ public static class DataPersistenceManager
             userSetting.cash = data.cash;
             userSetting.characterSpeedMultiplier = data.characterSpeedMultiplier;
             userSetting.characterGasAmountToAdd = data.characterGasAmountToAdd;
-            userSetting.characterMaxHealth = data.characterMaxHealth;
+            userSetting.characterMaxHealthToAdd = data.characterMaxHealthToAdd;
         }
     }
 }
