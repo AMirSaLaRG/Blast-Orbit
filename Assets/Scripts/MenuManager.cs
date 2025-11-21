@@ -42,7 +42,7 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         userSetting = UserSetting.Instance;
-        Debug.Log(Application.persistentDataPath);
+        // Debug.Log(Application.persistentDataPath);
         
     }
 

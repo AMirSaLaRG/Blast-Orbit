@@ -1,8 +1,5 @@
 using UnityEngine;
 using TMPro;
-using System;
-using UnityEngine.UI;
-using Microsoft.Unity.VisualStudio.Editor;
 
 public class InGameUIManager : MonoBehaviour
 {
