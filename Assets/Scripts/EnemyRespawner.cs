@@ -20,7 +20,7 @@ public class EnemyRespawner : MonoBehaviour
     public List<GameObject> cashPrefabs;
     public int cashWawesEach = 3;
 
-    private int maxPowerupValueToSummen = 1;
+    // private int maxPowerupValueToSummen = 1;
     public int powerupWawesEach = 5;
     public int powerupNumberToSummen = 1;
 

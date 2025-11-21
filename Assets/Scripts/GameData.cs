@@ -6,9 +6,11 @@ public class GameData
     public string username;
     public int highscore;
     public int cash;
-    public float characterSpeedMultiplier;
-    public float characterGasAmountToAdd;
-    public int characterMaxHealthToAdd;
+    public float characterSpeedLvl;
+    public float characterGasLvl;
+    public int characterMaxHealthLvl;
+    public int highScoreLvl;
+    public bool isUser;
     internal UserSetting userSetting;
 
     void SaveGame()

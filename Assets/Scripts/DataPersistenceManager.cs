@@ -12,9 +12,10 @@ public static class DataPersistenceManager
             username = userSetting.username,
             highscore = userSetting.highscore,
             cash = userSetting.cash,
-            characterSpeedMultiplier = userSetting.characterSpeedMultiplier,
-            characterGasAmountToAdd = userSetting.characterGasAmountToAdd,
-            characterMaxHealthToAdd = userSetting.characterMaxHealthToAdd
+            characterSpeedLvl = userSetting.characterSpeedLvl,
+            characterGasLvl = userSetting.characterGasLvl,
+            characterMaxHealthLvl = userSetting.characterMaxHealthLvl,
+            highScoreLvl = userSetting.highScoreLvl,
         };
 
         string json = JsonUtility.ToJson(data);
@@ -26,6 +27,7 @@ public static class DataPersistenceManager
         string path = Application.persistentDataPath + "/savefile.json";
         if(File.Exists(path))
         {
+            Debug.Log("file exist and " + UserSetting.Instance.isUser);
             string json = File.ReadAllText(path);
             GameData data = JsonUtility.FromJson<GameData>(json);
 
@@ -33,9 +35,11 @@ public static class DataPersistenceManager
             userSetting.username = data.username;
             userSetting.highscore = data.highscore;
             userSetting.cash = data.cash;
-            userSetting.characterSpeedMultiplier = data.characterSpeedMultiplier;
-            userSetting.characterGasAmountToAdd = data.characterGasAmountToAdd;
-            userSetting.characterMaxHealthToAdd = data.characterMaxHealthToAdd;
+            userSetting.characterSpeedLvl = data.characterSpeedLvl;
+            userSetting.characterGasLvl = data.characterGasLvl;
+            userSetting.characterMaxHealthLvl = data.characterMaxHealthLvl;
+            userSetting.highscore = data.highscore;
+            userSetting.isUser = data.isUser;
         }
     }
 }

@@ -7,9 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    
+    private UserSetting userSetting;
+    [Header ("User Info")]
+    public TextMeshProUGUI userNameInputField;
     public TextMeshProUGUI userNameText;
     public GameObject userNameInput;
-    private UserSetting userSetting;
+    public TextMeshProUGUI cashText;
+    public TextMeshProUGUI MaxLvlText;
    
     [Header ("Speed")]
     public float characterSpeedMultiplier;
@@ -37,13 +42,7 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         userSetting = UserSetting.Instance;
-        if (userSetting != null && userSetting.username != null)
-        {
-            userNameInput.SetActive(false);
-        } else
-        {
-            userNameText.enabled = false;
-        }
+        Debug.Log(Application.persistentDataPath);
         
     }
 
@@ -53,11 +52,20 @@ public class MenuManager : MonoBehaviour
         DisplaySpeedField(requestToAddSpeed);
         DisplayGasField(requestToAddGas);
         DisplayHealthField(requestToAddHealth);
+        DisplayCashAndLevelAndUsername();
     }
 
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        if (!userSetting.isUser)
+        {
+            string userName = userNameInputField.text;
+            userSetting.username = userName;
+            userSetting.isUser = true;
+            DataPersistenceManager.SaveGame();
+            
+        }
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
     public void ExitGame()
     {
@@ -67,32 +75,56 @@ public class MenuManager : MonoBehaviour
             Application.Quit();
         #endif
     }
+    private void DisplayCashAndLevelAndUsername()
+    {
+        userSetting = UserSetting.Instance;
+        if (userSetting.isUser)
+        {
+            
+            userNameInput.SetActive(false);
+            userNameText.text = userSetting.username;
+            
+        } else
+        { 
+            userNameText.enabled = false;
+            
+            
+        }
+        cashText.text = "Cash: $" + userSetting.cash;
+        MaxLvlText.text = "Max Level: " + userSetting.highScoreLvl;
+    }
     // Speed
     private void DisplaySpeedField(float requestToAdd = 0)
     {
-        float updatePersentageGas = (userSetting.characterSpeedMultiplier + requestToAdd) ;
-        speedUpgradeNumberText.text = updatePersentageGas + "%";
+        float updatePersentageSpeed = (userSetting.characterSpeedLvl + requestToAdd) ;
+        speedUpgradeNumberText.text = updatePersentageSpeed + "%";
         speedUpgradePriceText.text = "Price: " + (requestToAdd * cashEachUpgradeSpeed);
         
     }
-    public void TrytoUpdateBaseSpeed(float requestToAdd = 0)
+    public void TrytoUpdateBaseSpeed()
     {
-        float upgradePercantage = requestToAdd * 0.01f;
-        float cost = requestToAdd * cashEachUpgradeSpeed;
+        float cost = requestToAddSpeed * cashEachUpgradeSpeed;
         int cash = userSetting.cash;
 
-        if (cash < cost) return;
-        
-            cash -= (int)cost;
+        Debug.Log("checking cash");
 
-        userSetting.characterSpeedMultiplier -= upgradePercantage;
+        if (cash < cost || requestToAddSpeed == 0) return;
+        
+        Debug.Log("enough cash");
+        
+        cash -= (int)cost;
+        userSetting.cash = cash;
+
+        
+        userSetting.characterSpeedLvl += requestToAddSpeed;
+        requestToAddSpeed = 0;
         DataPersistenceManager.SaveGame();
         
     }
     public void RequestToAddSpeedPlus()
     {        
 
-        if ((userSetting.characterSpeedMultiplier + requestToAddSpeed) == maxAmountOfAllowSpeedUpdate) return;
+        if ((userSetting.characterSpeedLvl + requestToAddSpeed) == maxAmountOfAllowSpeedUpdate) return;
         requestToAddSpeed += 1;
     }
     public void RequestToAddSpeedMinus()
@@ -103,26 +135,33 @@ public class MenuManager : MonoBehaviour
     // Gas
     private void DisplayGasField(float requestToAdd = 0)
     {
-        float updatePersentageGas = (userSetting.characterGasAmountToAdd + requestToAdd);
+        float updatePersentageGas = (userSetting.characterGasLvl + requestToAdd);
         gasUpgradeNumberText.text = updatePersentageGas + "%";
         gasUpgradePriceText.text = "Price: " + (requestToAdd * cashEachUpgradeGas);
         
     }
-    public void TrytoUpdateBaseGass(float requestToAdd = 0)
+    public void TrytoUpdateBaseGass()
     {
-        float cost = requestToAdd * cashEachUpgradeGas;
+        float cost = requestToAddGas * cashEachUpgradeGas;
         int cash = userSetting.cash;
 
-        if (cash < cost) return;
-        
-            cash -= (int)cost;
+        Debug.Log("checking cash");
 
-        userSetting.characterGasAmountToAdd += requestToAdd;
+        if (cash < cost || requestToAddGas == 0) return;
+        
+        Debug.Log("enough cash");
+        
+        cash -= (int)cost;
+        userSetting.cash = cash;
+
+        userSetting.characterGasLvl += requestToAddGas;
+        requestToAddGas = 0;
+
         DataPersistenceManager.SaveGame();
         }
     public void RequestToAddGasPlus()
     {
-        if ((userSetting.characterGasAmountToAdd + requestToAddGas) == maxAmountOfAllowGasUpdate) return;
+        if ((userSetting.characterGasLvl + requestToAddGas) == maxAmountOfAllowGasUpdate) return;
         requestToAddGas += 1;
     }
     public void RequestToAddGasMinus()
@@ -133,27 +172,35 @@ public class MenuManager : MonoBehaviour
     // Health
     private void DisplayHealthField(float requestToAdd = 0)
     {
-        float updatePersentageGas = (userSetting.characterMaxHealthToAdd + requestToAdd) / maxAmountOfAllowHealthUpdate * 100; 
+        float updatePersentageGas = (userSetting.characterMaxHealthLvl + requestToAdd) / maxAmountOfAllowHealthUpdate * 100; 
         healthUpgradeNumberText.text = updatePersentageGas.ToString("F0") + "%";
         healthUpgradePriceText.text = "Price: " + (requestToAdd * cashEachUpgradeHealth);
         
     }
-    public void TrytoUpdateBaseHealth(int requestToAdd = 0)
+    public void TrytoUpdateBaseHealth()
     {
-        float cost = requestToAdd * cashEachUpgradeHealth;
+        float cost = requestToAddHealth * cashEachUpgradeHealth;
         int cash = userSetting.cash;
 
-        if (cash < cost) return;
-        
-            cash -= (int)cost;
 
-        userSetting.characterMaxHealthToAdd += requestToAdd;
+        if (cash < cost || requestToAddHealth == 0) return;
+        
+        Debug.Log("enough cash");
+
+
+        cash -= (int)cost;
+        userSetting.cash = cash;
+
+
+        
+        userSetting.characterMaxHealthLvl += (int)requestToAddHealth;
+        requestToAddHealth = 0;
         DataPersistenceManager.SaveGame();
         }
     
     public void RequestToAddHealthPlus()
     {
-        if ((userSetting.characterMaxHealthToAdd + requestToAddHealth) == maxAmountOfAllowHealthUpdate) return;
+        if ((userSetting.characterMaxHealthLvl + requestToAddHealth) == maxAmountOfAllowHealthUpdate) return;
         requestToAddHealth += 1;
     }
     public void RequestToAddHealthMinus()

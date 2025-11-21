@@ -636,8 +636,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 964e4718596f93f41af411fec361d7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuManager
+  userNameInputField: {fileID: 423299860}
   userNameText: {fileID: 1977519282}
   userNameInput: {fileID: 1754795148}
+  cashText: {fileID: 228742545}
+  MaxLvlText: {fileID: 717324480}
   characterSpeedMultiplier: 0
   cashEachUpgradeSpeed: 5
   maxAmountOfAllowSpeedUpdate: 100
@@ -937,7 +940,7 @@ GameObject:
   - component: {fileID: 228742546}
   - component: {fileID: 228742545}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: MoneyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1279,7 +1282,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 273339135}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 151122260}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: TrytoUpdateBaseHealth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &273339135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3207,7 +3222,7 @@ GameObject:
   - component: {fileID: 717324481}
   - component: {fileID: 717324480}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: MaxLevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3465,7 +3480,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 744469673}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 151122260}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: TrytoUpdateBaseGass
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &744469673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4766,6 +4793,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1230503542}
   - component: {fileID: 1230503541}
+  - component: {fileID: 1230503543}
   m_Layer: 0
   m_Name: UserSetting
   m_TagString: Untagged
@@ -4785,15 +4813,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e8d9dd90a9795143ac7ee39cc0e133f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UserSetting
-  username: NewPlayer
+  isUser: 0
+  username: 
   highscore: 0
   cash: 0
-  characterSpeedMultiplier: 0
-  cashEachUpgradeSpeed: 1
-  characterGasAmountToAdd: 0
-  cashEachUpgradeGas: 5
-  characterMaxHealthToAdd: 0
-  cashEachUpgradeHealth: 100
+  highScoreLvl: 0
+  characterSpeedLvl: 0
+  characterGasLvl: 0
+  characterMaxHealthLvl: 0
 --- !u!4 &1230503542
 Transform:
   m_ObjectHideFlags: 0
@@ -4809,6 +4836,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1230503543
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230503540}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1270675130
 GameObject:
   m_ObjectHideFlags: 0
@@ -5833,7 +5957,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1666216855}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 151122260}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: TrytoUpdateBaseSpeed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1666216855
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,25 +18,19 @@ public class GameManager : MonoBehaviour
     private float remainingTime;
     public bool isGameOver = false;
     private InGameUIManager uiManager;
-    
+    private PlayerController playerController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+
     }
 
     void Start()
     {
+        Debug.Log("started game manager");
         enemyRespawner = GameObject.Find("EnemyRespawner").GetComponent<EnemyRespawner>();
         uiManager = GameObject.Find("InGameUIManager").GetComponent<InGameUIManager>();
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         uiManager.SetLevelText("Level: " + level.ToString());
         levelStartTime = Time.time;  
         
@@ -65,6 +59,13 @@ public class GameManager : MonoBehaviour
     void GetToNextLevel()
     {
         level++;
+        UserSetting.Instance.cash = playerController.currentCash;
+        playerController.currentCash = 0;
+        if(UserSetting.Instance.highScoreLvl < level)
+        {
+           UserSetting.Instance.highScoreLvl = level;
+        }
+        DataPersistenceManager.SaveGame();
         uiManager.SetLevelText("Level: " + level.ToString());
         //inja mishe ye screen data bezarim o begim level tamam shod
         levelStartTime = Time.time;

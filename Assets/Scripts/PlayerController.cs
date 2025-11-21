@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    private bool isGamePause = false;
     [Header("Jump Settings")]
     public PlatformSpawner platformSpawner;
     public float multiplayerJumpDurationWithOutGas = 2.1f;
@@ -15,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public float jumpDistance = 5f;
     private bool usingSuperGas = false;
 
-    private int currentCash = 0;
+    public int currentCash = 0;
     private Animator animator;
     public ParticleSystem jumpEffect;
 
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private bool imuneToDamage = false;
     void Start()
     {
+        ApplyUpgrades();
         audioSource = GetComponent<AudioSource>();
         gameManager = GameManager.Instance;
         uiManager = GameObject.Find("InGameUIManager").GetComponent<InGameUIManager>();
@@ -55,18 +57,37 @@ public class PlayerController : MonoBehaviour
         jumpDistance = platformSpawner.Spacing * 0.8f;
         Respawn();
     }
+    private void ApplyUpgrades()
+    {
+        gassBaseAmount += (int)UserSetting.Instance.characterGasLvl;
+        gassCurrentAmount = gassBaseAmount;
+        health += UserSetting.Instance.characterMaxHealthLvl;
+        // this number will be between 1 to 100
+        float currentSpeedUpdated = UserSetting.Instance.characterSpeedLvl;
+        // i want 2 upgrade make player 1 persent faster up to 50persent faster
+        float calculateHowMuchFaster = currentSpeedUpdated * 0.005f;
+        float multipllerToMkaItFaster = 1 - calculateHowMuchFaster ;
+        baseJumpDuration *= multipllerToMkaItFaster;
+
+    }
 
     void Update()
     {
+        if (isGamePause)
+        {
+            Time.timeScale = 0;
+        }
         GoToMainMenu();
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isJumping && !usingSuperGas && gassCurrentAmount > (2*gassReductionPerJump)) 
-        {
+            if (usingSuperGas) return;
+            if (gassCurrentAmount < (2*gassReductionPerJump)) return;
+            if (!isJumping) return;
+            usingSuperGas = true;
             gassCurrentAmount -= 2*gassReductionPerJump;
             uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
             jumpDuration *= multiplayerJumpDurationWithSupperGas;            
-        }
+        
         }
         if (isJumping)
         {
@@ -107,7 +128,8 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            SceneManager.LoadScene(0);
+            isGamePause = true;
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
         }
     }
 
@@ -212,6 +234,7 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(jumpTarget.x, 1.5f, jumpTarget.z);
             
             isJumping = false;
+            usingSuperGas = false;
             // Debug.Log("✅ Landed!");
         }
     }
