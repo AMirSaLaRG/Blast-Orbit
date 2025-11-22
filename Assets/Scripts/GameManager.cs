@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     {
         level++;
         UserSetting.Instance.cash = playerController.currentCash;
-        playerController.currentCash = 0;
+        playerController.ResetCash();
         if(UserSetting.Instance.highScoreLvl < level)
         {
            UserSetting.Instance.highScoreLvl = level;

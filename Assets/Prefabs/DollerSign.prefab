@@ -98,7 +98,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3127851065285128300}
-  - component: {fileID: 5171802507219244}
   - component: {fileID: 347681245167766655}
   - component: {fileID: 1349403297528034354}
   m_Layer: 0
@@ -125,20 +124,6 @@ Transform:
   - {fileID: 2353643261977848301}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5171802507219244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8762792751495397875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc14d8b7623738147a778c6128fab7a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PickableEffects
-  pickUpSound: {fileID: 8300000, guid: 995344392c130b043905054730c5826c, type: 3}
-  gettingOutOfTimeEffect: {fileID: 2353643261977848275}
 --- !u!65 &347681245167766655
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -172,6 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5408b496b49594b4883a2d794cdfc996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CashPickUp
+  pickUpSound: {fileID: 8300000, guid: 287714c74120797488f2baa3f148324a, type: 3}
+  gettingOutOfTimeEffect: {fileID: 2353643261977848275}
   cashAmount: 10
 --- !u!1001 &2033550758765413778
 PrefabInstance:

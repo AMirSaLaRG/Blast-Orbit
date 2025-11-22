@@ -6,19 +6,19 @@ public class PlayerController : MonoBehaviour
 {
     private bool isGamePause = false;
     [Header("Jump Settings")]
-    public PlatformSpawner platformSpawner;
-    public float multiplayerJumpDurationWithOutGas = 2.1f;
-    public AudioClip jumpSound;
-    public float multiplayerJumpDurationWithSupperGas = 0.6f;
-    public float baseJumpDuration = 1.2f;
-    public float jumpDuration;
-    public float jumpHeight = 2f;
-    public float jumpDistance = 5f;
+    private PlatformSpawner platformSpawner;
+    [SerializeField] private float multiplayerJumpDurationWithOutGas = 2.1f;
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private float multiplayerJumpDurationWithSupperGas = 0.6f;
+    [SerializeField] private float baseJumpDuration = 1.2f;
+    [SerializeField] private float jumpDuration;
+    [SerializeField] private float jumpHeight = 2f;
+    private float jumpDistance = 5f;
     private bool usingSuperGas = false;
 
-    public int currentCash = 0;
+    public int currentCash  { get; private set; } = 0;
     private Animator animator;
-    public ParticleSystem jumpEffect;
+    [SerializeField] private ParticleSystem jumpEffect;
 
     private bool isJumping = false;
     private Vector3 jumpStart;
@@ -30,17 +30,16 @@ public class PlayerController : MonoBehaviour
     // Rotation control
     private Quaternion startRotation;
     private Quaternion targetRotation;
-    public int health = 3;
-    public int gassBaseAmount = 100;
-    public int gassCurrentAmount = 100;
-    public int gassReductionPerJump = 5;
+    [SerializeField] private int health = 3;
+    [SerializeField] private int gassBaseAmount = 100;
+    [SerializeField] private int gassCurrentAmount = 100;
+    [SerializeField] private int gassReductionPerJump = 5;
     private GameManager gameManager;
     private InGameUIManager uiManager;
     private AudioSource audioSource;
-    public bool gameOver = false;
 
-    public ParticleSystem damageEffect;
-    public AudioClip damageSound;
+    [SerializeField] private ParticleSystem damageEffect;
+    [SerializeField] private AudioClip damageSound;
     private bool imuneToDamage = false;
     void Start()
     {
@@ -118,6 +117,24 @@ public class PlayerController : MonoBehaviour
             lastInputTime = 0f;
         }
         
+    }
+    public void ResetCash()
+    {
+        currentCash = 0;
+       
+    }
+    public void GetGas(float gasToGet)
+    {
+        gassCurrentAmount += (int)gasToGet;
+        if (gassCurrentAmount > gassBaseAmount)
+        {
+            gassCurrentAmount = gassBaseAmount;
+        }
+        uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
+        // Debug.Log("🛢️ Gas Powerup Collected! Current Gas: " + playerController.gassCurrentAmount);
+        
+        // Cancel any invokes on the PickableEffects component (public MonoBehaviour API) and destroy its GameObject.
+       
     }
     // You need a method that Invoke can target to stop the audio
     void StopAudio()

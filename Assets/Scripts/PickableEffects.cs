@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class PickableEffects : MonoBehaviour
+public abstract class PickableEffects : MonoBehaviour
 {
-    private float duration = 6f;
-    public AudioClip pickUpSound;
+    [SerializeField] private float duration = 6f;
+    [SerializeField] private AudioClip pickUpSound;
     private float timetoApplyEffectEnding = 3f;
-    public ParticleSystem gettingOutOfTimeEffect;
-    private float startTime = 0;
+    [SerializeField] private ParticleSystem gettingOutOfTimeEffect;
+    [SerializeField] private float startTime = 0;
     private bool isGettingOutOfTime = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,12 +33,19 @@ public class PickableEffects : MonoBehaviour
         }
     }
     private void OnTriggerEnter(Collider other)
-    {   
+    {
         if (other.CompareTag("Player"))
         {
+            PlayerController playerController = other.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                ApplyUniqueEffect(playerController);
+            }
+            Debug.Log("got it");
             AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
+            StopInvoking();
+            Destroy(gameObject);
         }
-        
     }
     public void StopInvoking()
     {
@@ -49,4 +56,5 @@ public class PickableEffects : MonoBehaviour
         Debug.Log("PickableEffect expired, destroying object.");
         Destroy(gameObject);
     }
+    protected abstract void ApplyUniqueEffect(PlayerController player);
 }

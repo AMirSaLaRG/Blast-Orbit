@@ -1,34 +1,11 @@
 using UnityEngine;
 
-public class CashPickUp : MonoBehaviour
+public class CashPickUp : PickableEffects
 {
-    public int cashAmount = 10;
-    private PickableEffects pickableEffects;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        pickableEffects = GetComponent<PickableEffects>();
-    }
+    [SerializeField] private int cashAmount = 10;
 
-    // Update is called once per frame
-    void Update()
+    protected override void ApplyUniqueEffect(PlayerController playerController)
     {
-        
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            PlayerController playerController = other.GetComponent<PlayerController>();
-            if (playerController != null)
-            {
-                playerController.AddCash(cashAmount);
-                if (pickableEffects != null)
-                {
-                    pickableEffects.StopInvoking();
-                    Destroy(gameObject);
-                }
-            }
-        }
+        playerController.AddCash(cashAmount);
     }
 }

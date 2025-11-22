@@ -99,7 +99,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7997833684090597285}
   - component: {fileID: 6766363072780614259}
-  - component: {fileID: 8282879200270515427}
   - component: {fileID: 3005252313824777320}
   m_Layer: 0
   m_Name: GassPowerup
@@ -137,22 +136,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a346e91d7585e1c48995b4240cb682bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GassPowerup
+  duration: 6
+  pickUpSound: {fileID: 8300000, guid: 287714c74120797488f2baa3f148324a, type: 3}
+  gettingOutOfTimeEffect: {fileID: 2398740543874486765}
+  startTime: 0
   powerupValue: 1
   gasValueToAdd: 50
---- !u!114 &8282879200270515427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3835239715541270370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc14d8b7623738147a778c6128fab7a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PickableEffects
-  pickUpSound: {fileID: 8300000, guid: 995344392c130b043905054730c5826c, type: 3}
-  gettingOutOfTimeEffect: {fileID: 2398740543874486765}
 --- !u!65 &3005252313824777320
 BoxCollider:
   m_ObjectHideFlags: 0
