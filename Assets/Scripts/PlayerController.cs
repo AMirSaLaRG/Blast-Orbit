@@ -7,12 +7,12 @@ public class PlayerController : MonoBehaviour
     private bool isGamePause = false;
     [Header("Jump Settings")]
     private PlatformSpawner platformSpawner;
-    [SerializeField] private float multiplayerJumpDurationWithOutGas = 2.1f;
+    // [SerializeField] private float multiplayerJumpDurationWithOutGas = 2.1f;
     [SerializeField] private AudioClip jumpSound;
     [SerializeField] private float multiplayerJumpDurationWithSupperGas = 0.6f;
-    [SerializeField] private float baseJumpDuration = 1.2f;
+    [SerializeField] private float baseJumpDuration = 0.1f;
     [SerializeField] private float jumpDuration;
-    [SerializeField] private float jumpHeight = 2f;
+    [SerializeField] private float jumpHeight = 4f;
     private float jumpDistance = 5f;
     private bool usingSuperGas = false;
 
@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private Quaternion startRotation;
     private Quaternion targetRotation;
     [SerializeField] private int health = 3;
+    [SerializeField] private int baseHealth = 3;
     [SerializeField] private int gassBaseAmount = 100;
     [SerializeField] private int gassCurrentAmount = 100;
     [SerializeField] private int gassReductionPerJump = 5;
@@ -43,9 +44,10 @@ public class PlayerController : MonoBehaviour
     private bool imuneToDamage = false;
     void Start()
     {
+
         ApplyUpgrades();
         audioSource = GetComponent<AudioSource>();
-        gameManager = GameManager.Instance;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         uiManager = GameObject.Find("InGameUIManager").GetComponent<InGameUIManager>();
         uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
         uiManager.SetHealthText(health);
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
     }
     private void ApplyUpgrades()
     {
+        
         gassBaseAmount += (int)UserSetting.Instance.characterGasLvl;
         gassCurrentAmount = gassBaseAmount;
         health += UserSetting.Instance.characterMaxHealthLvl;
@@ -72,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (gameManager.isGameOver) return;
         if (isGamePause)
         {
             Time.timeScale = 0;
@@ -180,8 +184,9 @@ public class PlayerController : MonoBehaviour
     {
         if (gassCurrentAmount < gassReductionPerJump)
         {
-            Debug.Log("⛽ Not enough gas to jump!");
-            jumpDuration = baseJumpDuration * multiplayerJumpDurationWithOutGas;
+            // Debug.Log("⛽ Not enough gas to jump!");
+            // jumpDuration = baseJumpDuration * multiplayerJumpDurationWithOutGas;
+            jumpDuration = baseJumpDuration;
             
             
             
@@ -189,8 +194,8 @@ public class PlayerController : MonoBehaviour
         
         else
         {
-            gassCurrentAmount -= gassReductionPerJump;
-            uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
+            // gassCurrentAmount -= gassReductionPerJump;
+            // uiManager.setGasBar(gassCurrentAmount, gassBaseAmount);
             jumpDuration = baseJumpDuration;
 
         }
@@ -268,6 +273,7 @@ public class PlayerController : MonoBehaviour
             // Handle player death (e.g., respawn, game over, etc.)
             // Respawn();
             // health = 3; // Reset health on respawn
+            gameManager.gameOVer();
             
         }
         else
@@ -278,7 +284,7 @@ public class PlayerController : MonoBehaviour
 
     void Respawn()
     {
-        transform.position = platformSpawner.GetRandomCenter() + Vector3.up * 2f;
+        transform.position = platformSpawner.GetRandomCenter() + Vector3.up * 4f;
     }
     public void AddCash(int amount)
     {
@@ -295,5 +301,16 @@ public class PlayerController : MonoBehaviour
         audioSource.Stop();
         imuneToDamage = false;
         damageEffect.Stop();
+    }
+    public void Heal(int num)
+    {
+        if (health + num < baseHealth)
+        {
+            health += num;
+        } else if (health + num >= baseHealth)
+        {
+            health = baseHealth;
+        }
+        uiManager.SetHealthText(health);
     }
 }

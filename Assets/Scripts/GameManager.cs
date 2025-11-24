@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,14 +10,15 @@ public class GameManager : MonoBehaviour
     public int level = 1;
     public int levelTime = 60;
     public int overalWawes;
+    public bool isGameOver = false;
+    public int gameDifficulty = 1;
 
     [Header("Difficulty Scaling")]
     private EnemyRespawner enemyRespawner;
-    private int numberToIncreaseLvlDifficulty = 3;
+    private int numberToIncreaseLvlDifficulty = 20;
 
     private float levelStartTime;
     private float remainingTime;
-    public bool isGameOver = false;
     private InGameUIManager uiManager;
     private PlayerController playerController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -53,9 +55,28 @@ public class GameManager : MonoBehaviour
             ApplyDynamicDifficulty();
         }
         
+        
 
     }
+    public void ResetGame()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        isGameOver = false;
+        uiManager.ToggleGsmeOverUi(false);
+        SceneManager.LoadScene(currentSceneIndex);
+    }
+    public void GoToMain()
+    {
+        SceneManager.LoadScene(0);
+    }
     // ye click bezarim bara raftan next level ya age game over bashe faqat reset
+    public void gameOVer()
+    {
+    
+        isGameOver = true;
+        uiManager.ToggleGsmeOverUi(true);
+
+    }
     void GetToNextLevel()
     {
         level++;
@@ -78,14 +99,22 @@ public class GameManager : MonoBehaviour
     }
     void ApplyDynamicDifficulty()
     {
+        // lelel progress is a number betwin 9 and 1 that present of start and end of the level
         float levelProgress = (Time.time - levelStartTime) / levelTime;
 
+        // number to increase lvl difficulty is responible for the in each lvl from start to end how many times it should get harder the game (if it is 2 first half and second half)
+        //level difficulty is only duty is get game harder in that lvl
         int lvlDifficulty = (int)Math.Floor(levelProgress * numberToIncreaseLvlDifficulty);
         // Ensure the difficulty doesn't go below the current level's base difficulty (level - 1)
         // You might want to adjust this based on your spawner logic
         if (enemyRespawner != null)
         {
-            enemyRespawner.increaseNumberENemy = lvlDifficulty + (level - 1); 
+            enemyRespawner.TimerBombIncreaseDiffcultyInLevel(lvlDifficulty);
         }
+        
+    }
+    void ApplyDifficultyWithLevelPlanner()
+    {
+        
     }
 }

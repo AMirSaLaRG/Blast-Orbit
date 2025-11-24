@@ -12,9 +12,9 @@ public static class DataPersistenceManager
             username = userSetting.username,
             highscore = userSetting.highscore,
             cash = userSetting.cash,
-            characterSpeedLvl = userSetting.characterSpeedLvl,
-            characterGasLvl = userSetting.characterGasLvl,
-            characterMaxHealthLvl = userSetting.characterMaxHealthLvl,
+            // characterSpeedLvl = userSetting.characterSpeedLvl,
+            // characterGasLvl = userSetting.characterGasLvl,
+            // characterMaxHealthLvl = userSetting.characterMaxHealthLvl,
             highScoreLvl = userSetting.highScoreLvl,
         };
 
@@ -35,9 +35,9 @@ public static class DataPersistenceManager
             userSetting.username = data.username;
             userSetting.highscore = data.highscore;
             userSetting.cash = data.cash;
-            userSetting.characterSpeedLvl = data.characterSpeedLvl;
-            userSetting.characterGasLvl = data.characterGasLvl;
-            userSetting.characterMaxHealthLvl = data.characterMaxHealthLvl;
+            // userSetting.characterSpeedLvl = data.characterSpeedLvl;
+            // userSetting.characterGasLvl = data.characterGasLvl;
+            // userSetting.characterMaxHealthLvl = data.characterMaxHealthLvl;
             userSetting.highscore = data.highscore;
             userSetting.isUser = data.isUser;
         }

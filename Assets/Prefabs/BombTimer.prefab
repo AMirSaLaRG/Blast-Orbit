@@ -266,7 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimerBomb
   countdownText: {fileID: 4509920358569115092}
   bombTimer: 3
-  explosionDuration: 1
+  explosionDuration: 0.3
   damage: 1
   explosionEffect: {fileID: 4443389051570289769}
   timeToPlayClip: 2

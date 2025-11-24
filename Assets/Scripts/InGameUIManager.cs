@@ -8,6 +8,7 @@ public class InGameUIManager : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI cashText;
     private GameManager gameManager;
+    [SerializeField] private GameObject gameOverUi;
     public UnityEngine.UI.Image gasBar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,6 +45,10 @@ public class InGameUIManager : MonoBehaviour
     public void SetCashText(int cashNumber)
     {
         cashText.text = "Cash: $" + cashNumber.ToString();
+    }
+    public void ToggleGsmeOverUi(bool activity)
+    {
+        gameOverUi.SetActive(activity);
     }   
     
 }

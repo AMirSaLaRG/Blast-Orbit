@@ -140,7 +140,6 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: 287714c74120797488f2baa3f148324a, type: 3}
   gettingOutOfTimeEffect: {fileID: 2398740543874486765}
   startTime: 0
-  powerupValue: 1
   gasValueToAdd: 50
 --- !u!65 &3005252313824777320
 BoxCollider:

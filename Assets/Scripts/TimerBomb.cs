@@ -7,7 +7,7 @@ public class TimerBomb : MonoBehaviour
 {
     public TextMeshProUGUI countdownText;
     public float bombTimer;
-    public float explosionDuration = 1.0f;
+    public float explosionDuration = 0.3f;
     public int damage = 1;
     private bool isExploding;
     private const float TargetY = 3f;

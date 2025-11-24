@@ -14,11 +14,14 @@ public class EnemyRespawner : MonoBehaviour
     public float spawnHeight = 40f;
     private int waweNumber = 1;
     public int increaseNumberENemy;
+    [SerializeField]private float bombTimerChanceToSummenInterval  = 0.3f;
+    [SerializeField]private int bombTimerChanceToSummenOneIn = 2;
 
     [Header("Respawn Powerups Settings")]
     public List<GameObject> powerupPrefabs;
     public List<GameObject> cashPrefabs;
     public int cashWawesEach = 3;
+    private GameManager gameManager;
 
     // private int maxPowerupValueToSummen = 1;
     public int powerupWawesEach = 5;
@@ -28,8 +31,11 @@ public class EnemyRespawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         platformSpawner = GameObject.Find("PlatformSpawner").GetComponent<PlatformSpawner>();
         StartCoroutine(NextSummenWave());
+        StartCoroutine(ConstTImeToSummenBombTimerByChance());
+        
     }
 
     // Update is called once per frame
@@ -39,9 +45,9 @@ public class EnemyRespawner : MonoBehaviour
     }
     private IEnumerator NextSummenWave()
     {
-        while (true)
+        while (!gameManager.isGameOver)
         {
-            SummenWave(baseSummenNumber + increaseNumberENemy);
+            // SummenWave(baseSummenNumber + increaseNumberENemy);
             
             SummenItem(waweNumber, powerupNumberToSummen, powerupPrefabs, powerupWawesEach);
             SummenItem(waweNumber, powerupNumberToSummen, cashPrefabs, cashWawesEach);
@@ -94,6 +100,27 @@ public class EnemyRespawner : MonoBehaviour
 
         // Start the movement coroutine immediately after spawning (using a fixed 2.0s drop time)
         
+    }
+    private void RandomSummener(int oneINChance)
+    {
+        int luckNumber = UnityEngine.Random.Range(0, oneINChance);
+        if (luckNumber == 0)
+        {
+            RespawnBombTimer();
+        }
+    }
+    private IEnumerator ConstTImeToSummenBombTimerByChance()
+    {
+        while (!gameManager.isGameOver)
+        {
+            RandomSummener(bombTimerChanceToSummenOneIn);
+            yield return new WaitForSeconds(bombTimerChanceToSummenInterval);   
+        }
+        
+    }
+    public void TimerBombIncreaseDiffcultyInLevel(int theDifficulty)
+    {
+        bombTimerChanceToSummenInterval -= (theDifficulty/100); 
     }
     
 }

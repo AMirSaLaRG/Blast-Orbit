@@ -49,9 +49,9 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DisplaySpeedField(requestToAddSpeed);
-        DisplayGasField(requestToAddGas);
-        DisplayHealthField(requestToAddHealth);
+        // DisplaySpeedField(requestToAddSpeed);
+        // DisplayGasField(requestToAddGas);
+        // DisplayHealthField(requestToAddHealth);
         DisplayCashAndLevelAndUsername();
     }
 
