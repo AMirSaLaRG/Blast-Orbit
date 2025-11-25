@@ -12,10 +12,13 @@ public static class DataPersistenceManager
             username = userSetting.username,
             highscore = userSetting.highscore,
             cash = userSetting.cash,
+            highScoreLvl = userSetting.highScoreLvl,
+
+            //this part is for updates
+            
             // characterSpeedLvl = userSetting.characterSpeedLvl,
             // characterGasLvl = userSetting.characterGasLvl,
             // characterMaxHealthLvl = userSetting.characterMaxHealthLvl,
-            highScoreLvl = userSetting.highScoreLvl,
         };
 
         string json = JsonUtility.ToJson(data);
@@ -35,11 +38,14 @@ public static class DataPersistenceManager
             userSetting.username = data.username;
             userSetting.highscore = data.highscore;
             userSetting.cash = data.cash;
+            userSetting.highscore = data.highscore;
+            userSetting.isUser = data.isUser;
+
+            //this part is for updates
+
             // userSetting.characterSpeedLvl = data.characterSpeedLvl;
             // userSetting.characterGasLvl = data.characterGasLvl;
             // userSetting.characterMaxHealthLvl = data.characterMaxHealthLvl;
-            userSetting.highscore = data.highscore;
-            userSetting.isUser = data.isUser;
         }
     }
 }

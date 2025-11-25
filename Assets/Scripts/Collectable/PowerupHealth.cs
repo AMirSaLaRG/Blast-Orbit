@@ -6,6 +6,6 @@ public class PowerupHealth : PickableEffects
 
     protected override void ApplyUniqueEffect(PlayerController playerController)
     {
-        playerController.Heal(1);
+        playerController.Heal(heal);
     }
 }
